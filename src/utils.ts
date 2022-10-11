@@ -3,7 +3,6 @@ import MapView from "@arcgis/core/views/MapView";
 import Search from "@arcgis/core/widgets/Search";
 import Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
-import TextSymbol from "@arcgis/core/symbols/TextSymbol";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import GraphicLayer from "@arcgis/core/layers/GraphicsLayer";
 import { locationToAddress } from "@arcgis/core/rest/locator";
