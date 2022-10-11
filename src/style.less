@@ -1,0 +1,102 @@
+body {
+  font-size: 14px;
+  line-height: 25px;
+  background-color: #fff;
+  font-family: Poppins,arial,sans-serif;
+  color: #616a66;
+  font-weight: 400;
+  font-style: normal;
+}
+
+pre {
+  overflow: unset;
+}
+
+#app {
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  flex-flow: row;
+  justify-content: stretch;
+
+  .container {
+    flex-grow: 1;
+    flex-shrink: 0;
+    max-height: 100%;
+    overflow: auto;
+    flex-basis: 33%;
+    padding: 1em;
+  }
+
+  #formContainer {
+    h3 {
+      font-size: large;
+      display: block;
+      margin-bottom: 1em;
+    }
+
+    table.model-result-table {
+      border: 1px solid #cecece;
+      width: 100%;
+      margin-bottom: 2em;
+      thead {
+        border-bottom: 1px solid #cecece;
+        th {
+          padding: 5px 0 10px 5px;
+          font-weight: bold;
+          i {
+            font-style: italic;
+          }
+        }
+      }
+      tbody {
+        tr {
+          border-bottom: 1px dashed #cecece;
+          td {
+            padding: 5px 0 5px 5px;
+            border-left: 1px dashed #cecece;
+          }
+        }
+      }
+    }
+
+    form {
+      label {
+        display: flex;
+        flex-flow: row;
+        flex-grow: 1;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: 1em;
+        span.label-text {
+          font-weight: bold;;
+        }
+        span.input-control {
+          margin-left: 0.5em;
+          display: flex;
+          flex-flow: row;
+          align-items: center;
+          input {
+            width: 7em;
+          }
+          span.unit-measure {
+            font-style: italic;
+            min-width: 2.5em;
+            margin-left: 0.2em;
+          }
+        }
+      }
+    }
+  }
+
+  #mainMap {
+    flex-grow: 1;
+    justify-self: stretch;
+    height: 100%;
+  }
+
+  #modelResults {
+    min-height: 450px;
+  }
+}
