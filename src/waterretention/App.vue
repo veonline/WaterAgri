@@ -77,16 +77,6 @@
       </form>
     </div>
     <div id="modelResults" class="container">
-      <!-- <Chart :size="{ width: 550, height: 400 }" :data="alldata" :direction="'horizontal'" :margin="{ top: 25 }" >
-
-        <template #layers>
-          <Grid stroke-dasharray="2,2" />
-          <Line :data-keys="['month', 'airt']" :line-style="{stroke: '#00ff00'}"/>
-          <LabelsLayer :data-keys="['month', 'airt']"  />
-          <Line :data-keys="['month', 'cout']" :line-style="{stroke: '#ff0000'}" />
-        </template>
-
-      </Chart> -->
       <v-chart :option="chartOptions"></v-chart>
     </div>
   </template>
