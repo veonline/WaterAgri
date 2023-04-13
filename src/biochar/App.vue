@@ -44,10 +44,10 @@
     </form>
   </div>
   <div id="modelResults" class="container fill" v-if="result" style="text-align: center;">
-    <strong>Available water content</strong>
+    <strong>Results</strong>
     <ul>
-      <li>{{ result.percent }} %</li>
-      <li>{{ (hectars ? result.aw * hectars : result.aw).toFixed(3) }} cm<sup>3</sup></li>
+      <li><strong>Increase on available water</strong> {{ result.percent }} %</li>
+      <li>{{ (hectars ? result.aw * hectars : result.aw).toFixed(3) }} cm<sup>3</sup>/cm<sup>3</sup></li>
     </ul>
   </div>
 </template>

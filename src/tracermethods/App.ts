@@ -30,7 +30,7 @@ export default defineComponent({
     provide(THEME_KEY, 'light');
 
     const seasons = ['winter', 'spring', 'summer', 'autumn'];
-    const selectedSeason = ref('winter');
+    const selectedSeason = ref(null);
 
     const soilType = {
       'Silty Clay Loam': 'SiCL',
@@ -42,17 +42,24 @@ export default defineComponent({
       'Sandy Clay Loam': 'SaCL',
       'Loam': 'L'
     }
-    const selectedSoilType = ref(null);
-
+    const selectedSoilType = ref('L');
+    const colors: Record<string, string> = {
+      'winter': '#37effc',
+      'spring': '#11d614',
+      'summer': '#f7fc5a',
+      'autumn': '#d69b11'
+    }
     const chartOptions = ref({
       tooltip: {
         trigger: 'axis',
-        formatter: '{c}'
+        className: 'tracermethods-chart-tooltip'
+      },
+      legend: {
+        data: seasons
       },
       xAxis: {
         type: 'value',
         position: 'top',
-        name: computed(() => selectedSoilType.value ? Object.entries(soilType).find(([k, v]) => v == selectedSoilType.value)![0] : null),
         nameLocation: 'center',
         nameGap: 30,
         min: (val: { min: number }) => Math.floor(val.min - 2),
@@ -64,7 +71,7 @@ export default defineComponent({
           position: 'left',
           inverse: true,
           nameLocation: 'middle',
-          nameGap: 60,
+          nameGap: 30,
           name: "depth (cm)",
           data: dataset.depth,
           axisLine: { onZero: false },
@@ -73,12 +80,15 @@ export default defineComponent({
           }
         }
       ],
-      series: [
-        {
+      series: computed(() => 
+        seasons.map(s => ({
+          name: s,
           type: 'line',
           smooth: true,
-          data: computed(() => selectedSoilType.value ? dataset[selectedSoilType.value][selectedSeason.value] : [])
-        }]
+          data: dataset[selectedSoilType.value][s],
+          lineStyle: { color: colors[s] },
+          itemStyle: { color: colors[s] }
+        })))
     });
 
     return {

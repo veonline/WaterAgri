@@ -1,4 +1,4 @@
-export const profiles = {
+export const profiles: Record<string, any> = {
   "depth": [
     0,
     0.1818,
