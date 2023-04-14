@@ -49,7 +49,7 @@ export default defineComponent({
       'summer': '#f7fc5a',
       'autumn': '#d69b11'
     }
-    const chartOptions = ref({
+    const chartOptions = computed(() => ({
       tooltip: {
         trigger: 'axis',
         className: 'tracermethods-chart-tooltip'
@@ -80,16 +80,15 @@ export default defineComponent({
           }
         }
       ],
-      series: computed(() => 
-        seasons.map(s => ({
+      series: seasons.map(s => ({
           name: s,
           type: 'line',
           smooth: true,
           data: dataset[selectedSoilType.value][s],
           lineStyle: { color: colors[s] },
           itemStyle: { color: colors[s] }
-        })))
-    });
+        }))
+    }));
 
     return {
       seasons,
