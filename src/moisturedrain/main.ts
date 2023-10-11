@@ -5,11 +5,8 @@ import '@/style.less'
 
 import { createApp } from 'vue'
 import App from './App.vue'
-import Popper from "vue3-popper";
 
 import esriConfig from "@arcgis/core/config";
 esriConfig.apiKey = "AAPK0c80427f13aa4740a2458ea0cc627c04uDL22RHYqQvTz9ysKfweYAIDjIC15F9P_Kk2gkxZbE3BT_VwppeZ2y9U1NaknHtp";
 
-const app = createApp(App)
-app.component("Popper", Popper)
-app.mount('#app')
+createApp(App).mount('#app')

@@ -1,3 +1,4 @@
+//out: false
 body {
   font-size: 14px;
   line-height: 25px;
@@ -91,6 +92,7 @@ pre {
           display: flex;
           flex-flow: row;
           align-items: center;
+          align-self: flex-start;
           input {
             width: 7em;
           }
@@ -128,5 +130,21 @@ pre {
 .tracermethods-chart-tooltip {
   &>div>div>div:first-child {
     display: none;
+  }
+}
+
+.popper {
+  max-width: 800px;
+  text-align: left;
+  font-weight: normal;;
+  ol {
+    li {
+      list-style: decimal;
+    }
+  }
+  ul {
+    li {
+      list-style: circle;
+    }
   }
 }
