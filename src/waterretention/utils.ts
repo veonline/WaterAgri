@@ -1,3 +1,4 @@
+import Basemap from "@arcgis/core/Basemap";
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
 import Search from "@arcgis/core/widgets/Search";
@@ -9,8 +10,12 @@ import { locationToAddress } from "@arcgis/core/rest/locator";
 import { ComputedRef, reactive, ref } from "vue";
 import { computed } from "@vue/reactivity";
 
+const basemap = new Basemap({
+  portalItem: { id: "ea3befe305494bb5b2acd77e1b3135dc" }
+});
+
 const map = new Map({
-  basemap: "satellite"
+  basemap: basemap
 });
 
 const mapView = new MapView({

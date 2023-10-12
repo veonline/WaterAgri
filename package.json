@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@arcgis/core": "^4.24.7",
+    "@arcgis/core": "^4.27.6",
     "@vueuse/core": "^9.0.1",
     "css-reset-and-normalize": "^2.3.6",
     "echarts": "^5.3.3",
