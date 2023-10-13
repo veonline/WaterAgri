@@ -4,7 +4,12 @@
   </div>
   <div class="tiff-selection-buttons" ref="buttons" v-show="mapready">
     <button @click="showRaster('deep_drain')" :class="{active : rasterType == 'deep_drain'}">With deep dranis</button>
-    <button @click="showRaster('no_deep_drain')" :class="{active : rasterType == 'no_deep_drain'}">Without deeb drains</button>
+    <button @click="showRaster('no_deep_drain')" :class="{active : rasterType == 'no_deep_drain'}">Without deep drains</button>
+    <div class="legend-container">
+      <div class="legend"></div>
+      <div class="low">low</div>
+      <div class="high">high</div>
+    </div>
   </div>
 </template>
 <script src="./App.ts" lang="ts"></script>
@@ -24,5 +29,20 @@ button {
 button.active {
   pointer-events: none;
   border: 1px solid black;
+}
+
+.legend-container {
+  font-size: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.legend {
+  background-color: #ffff;
+  height: 9px;
+  width: 100%;
+  background-image: linear-gradient(to right, rgb(253, 231, 37),rgb(122, 209, 81),rgb(34, 168, 132),rgb(42, 120, 142),rgb(65, 68, 135),rgb(68, 1, 84));
+
 }
 </style>

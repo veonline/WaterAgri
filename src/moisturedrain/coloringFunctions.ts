@@ -22,7 +22,7 @@ export const ColoringFunction = ({ buffer, nodata, alpha = 1, nodataColor }: Col
     else if (v > 0.6 && v <= 0.8)
       color = colorMixer(Imagery.C4, Imagery.C5, (v - 0.6) / 0.2)
     else
-      color = colorMixer(Imagery.Yellow, Imagery.Green, (v - 0.8) / 0.2)
+      color = colorMixer(Imagery.C5, Imagery.C6, (v - 0.8) / 0.2)
     texture.push(color[0], color[1], color[2], 255)
   })
   return new Uint8Array(texture)

@@ -39,6 +39,8 @@ export default defineComponent({
       await showRaster(rasterType.value);
     });
 
+    
+
     async function showRaster(tiffname: 'deep_drain' | 'no_deep_drain') {
       if (!mapView) return;
       await mapView.when();
