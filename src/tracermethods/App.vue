@@ -22,9 +22,8 @@
           </select>
         </span>
       </label> -->
-    </form>    
+    </form>
   </div>
-  <!-- <pre>{{ chartOptions.series.map(s => s.name) }}</pre> -->
   <div class="container fill" id="modelResults" v-if="selectedSoilType">
     <v-chart :option="chartOptions" autoresize></v-chart>
   </div>
