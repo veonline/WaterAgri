@@ -3,6 +3,16 @@
     <form>
       <label class="center">
         <span class="label-text">
+          Select place
+        </span>
+        <span class="input-control">
+          <select v-model="placeSelected">
+            <option v-for="p in places" :key="p" :value="p">{{ p }}</option>
+          </select>
+        </span>
+      </label>
+      <label class="center">
+        <span class="label-text">
           Select soil type
         </span>
         <span class="input-control">
