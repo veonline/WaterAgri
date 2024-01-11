@@ -10,8 +10,9 @@ import {
 } from 'echarts/components';
 import VChart, { THEME_KEY } from 'vue-echarts';
 
-import { profiles as dataset } from "./profiles";
+import { profiles } from "./profiles";
 
+const places = Object.keys(profiles);
 
 use([
   CanvasRenderer,
@@ -31,6 +32,8 @@ export default defineComponent({
 
     const seasons = ['winter', 'spring', 'summer', 'autumn'];
     const selectedSeason = ref(null);
+    const placeSelected = ref<string>("bologna")
+    const dataset = computed(() => profiles[placeSelected.value])
 
     const soilType = {
       'Silty Clay Loam': 'SiCL',
@@ -73,7 +76,7 @@ export default defineComponent({
           nameLocation: 'middle',
           nameGap: 30,
           name: "depth (cm)",
-          data: dataset.depth,
+          data: dataset.value.depth,
           axisLine: { onZero: false },
           axisLabel: {
             interval: (index: number, value: number) => Math.floor(value) == value
@@ -81,13 +84,13 @@ export default defineComponent({
         }
       ],
       series: seasons.map(s => ({
-          name: s,
-          type: 'line',
-          smooth: true,
-          data: dataset[selectedSoilType.value][s],
-          lineStyle: { color: colors[s] },
-          itemStyle: { color: colors[s] }
-        }))
+        name: s,
+        type: 'line',
+        smooth: true,
+        data: dataset.value[selectedSoilType.value][s],
+        lineStyle: { color: colors[s] },
+        itemStyle: { color: colors[s] }
+      }))
     }));
 
     return {
@@ -95,7 +98,9 @@ export default defineComponent({
       selectedSeason,
       soilType,
       selectedSoilType,
-      chartOptions
+      chartOptions,
+      places,
+      placeSelected
     }
 
   }

@@ -17,19 +17,20 @@ export default defineConfig({
       define: {
         global: 'globalThis'
       },
-      supported: { 
-        bigint: true 
+      supported: {
+        bigint: true
       },
     },
   },
   build: {
-    target: ["esnext"], 
+    target: ["esnext"],
     rollupOptions: {
       input: {
         waterretention: fileURLToPath(new URL('./waterretention.html', import.meta.url)),
         biochar: fileURLToPath(new URL('./biochar.html', import.meta.url)),
         tracermethods: fileURLToPath(new URL('./tracermethods.html', import.meta.url)),
         moisturedrain: fileURLToPath(new URL('./moisturedrain.html', import.meta.url)),
+        dataassimilation: fileURLToPath(new URL('./dataassimilation.html', import.meta.url)),
       }
     }
   }
