@@ -1,55 +1,124 @@
 <template>
-    <h1>Rapid Assessment</h1>
-    <div id="mapContainer" class="container">
-      <div ref="mainMap" id="mainMap"></div>
-    </div>
-    <div class="tiff-selection-buttons" ref="buttons" v-show="mapready">
-      <button @click="showRasterLayerToggle">{{ rasterVisible ? 'hide' : 'show' }}</button>
-      <button @click=" showRaster('with')" :class="{ active: rasterType == 'with' }">With data assimilation</button>
-      <button @click="showRaster('without')" :class="{ active: rasterType == 'without' }">Without data
-        assimilation</button>
-      <div class="legend-container">
-        <div class="legend"></div>
-        <div class="low">low</div>
-        <div class="high">high</div>
+    <div class="container-fluid">
+      <div class="row">
+        <div id="map" class="col-sm-6">
+            
+        </div>
+        <div id="result" class="col-sm-6">
+          
+          <h1>Wateragri Solutions Rapid Assessment</h1>
+          <template v-if="sol_filtered.length==0">
+            <div class="alert alert-info">
+              Choose a location on the map to evaluate the best Wateragri solutions
+            </div>
+          </template>
+          <template v-else>
+            <h3>Best solutions for {{sel_location?.name}}</h3>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Solution</th>
+                  <th scope="col">Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="sol in sol_filtered" :key="sol.solution">
+                  <td>{{sol.solution}}</td>
+                  <td>{{sol.suitability}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </template>
+        </div>
       </div>
     </div>
-  </template>
-  <script>
+</template>
+<script setup>
+
+import { ref, onMounted, onUnmounted } from 'vue'
+
+import {getSolutions, getLocations} from './data.js'
 
 
-  </script>
+const solutions=ref(getSolutions())
+
+const location = ref(
+  getLocations()
+)
+
+const sol_filtered=ref([])
+
+
+const sel_location=ref(null)
+
+onMounted(() => {
+  map.value = L.map('map').setView([51.505, -0.09], 13)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map.value)
+
+
+  let geojson={
+    "type": "FeatureCollection",
+    "features":[]
+  }
+
+  location.value.locations.forEach((location, index) => {
+    geojson.features.push({
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [location.lng, location.lat]
+      },
+      "properties": location
+    })
+  })
+
+  L.geoJSON(geojson, {
+    onEachFeature: function (feature, layer) {
+      layer.on('click', function (e) {
+
+        let prop=feature.properties
+        let popup=`
+          <h3>${prop.name}</h3>
+          <p>Zone: ${prop.zone}</p>
+          <a href="${prop.url}" target="_blank">Go to location</a>
+        `;
+
+        layer.bindPopup(popup).openPopup();
+
+        sel_location.value=prop;
+
+        //selected location by WATERAGRI_Sites=prop.code
+
+        sol_filtered.value=solutions.value.filter((sol) => {
+          return sol.WATERAGRI_Sites==prop.code
+        })
+
+
+        console.log(sol_filtered.value)
+
+
+
+      })
+    }
+  }).addTo(map.value)
+
+
+  //zoom to geojson counds
+  map.value.fitBounds(L.geoJSON(geojson).getBounds())
+
+
+
+
+})
+
+
+
+</script>
   <style>
-  .tiff-selection-buttons {
-    padding: 16px;
-    background-color: #ffffff;
-    border-radius: 4px;
-  }
-  
-  button {
-    font-family: Poppins, arial, sans-serif;
-    margin: 5px;
-    border-style: none;
-    padding: 4px 8px;
-  }
-  
-  button.active {
-    pointer-events: none;
-    border: 1px solid black;
-  }
-  
-  .legend-container {
-    font-size: 0.8rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  
-  .legend {
-    background-color: #ffff;
-    height: 9px;
-    width: 100%;
-    background-image: linear-gradient(to right, rgb(253, 231, 37), rgb(122, 209, 81), rgb(34, 168, 132), rgb(42, 120, 142), rgb(65, 68, 135), rgb(68, 1, 84));
-  
-  }
+ 
+  #map {
+    height: 100vh;
+  } 
   </style>
