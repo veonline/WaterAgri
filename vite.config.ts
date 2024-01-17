@@ -31,6 +31,7 @@ export default defineConfig({
         tracermethods: fileURLToPath(new URL('./tracermethods.html', import.meta.url)),
         moisturedrain: fileURLToPath(new URL('./moisturedrain.html', import.meta.url)),
         dataassimilation: fileURLToPath(new URL('./dataassimilation.html', import.meta.url)),
+        rapidassessment: fileURLToPath(new URL('./rapidassessment.html', import.meta.url)),
       }
     }
   }
