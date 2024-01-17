@@ -22,7 +22,7 @@ pre {
   justify-content: stretch;
   flex-wrap: wrap;
   &.centered {
-    max-width: 600px;
+    max-width: 768px;
     margin: 0 auto;
     height: auto;
   }
@@ -128,7 +128,7 @@ pre {
 }
 
 .tracermethods-chart-tooltip {
-  &>div>div>div:first-child {
+  & > div > div > div:first-child {
     display: none;
   }
 }
@@ -136,7 +136,7 @@ pre {
 .popper {
   max-width: 800px;
   text-align: left;
-  font-weight: normal;;
+  font-weight: normal;
   ol {
     li {
       list-style: decimal;
@@ -147,4 +147,25 @@ pre {
       list-style: circle;
     }
   }
+}
+
+h1 {
+  text-align: center;
+  font-weight: bolder;
+  font-size: 1.7rem;
+  display: block;
+  width: 100%;
+}
+
+div.frow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .col {
+    flex: 1 1 0;
+  }
+}
+
+p.info {
+  font-size: 0.8rem;
 }
