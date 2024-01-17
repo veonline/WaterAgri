@@ -132,37 +132,13 @@ export default defineComponent({
       //  console.debug("orig deltas: ", "nw:", nw, "ne: ", ne, "sw: ", sw);
 
 
-      //ricalcolo la dimensione  del canvas di destinazione corretta in base alla sua dimensione visibile nel mapView
+      //ricalcolo la dimensione a schermo  del canvas di destinazione corretta in base alla sua dimensione visibile nel mapView
       const tcoriginNW = [Math.max(0, nw[0]), Math.max(0, nw[1])];
       const tcoriginNE = [Math.min(mapView.width, ne[0]), Math.max(0, nw[1])];
       const tcoriginSW = [Math.max(0, sw[0]), Math.min(mapView.height, sw[1])];
       // console.debug("target canvas corners: ", "nw:", tcoriginNW, "ne: ", tcoriginNE, "sw: ", tcoriginSW);
       const correctTargetCanvasWidth = tcoriginNE[0] - tcoriginNW[0]; //<- la larghezza del canvas finale è la distanza tra le x dei degli angoli nordest e nordovest
       const correctTargetCanvasHeight = tcoriginSW[1] - tcoriginNW[1]; //<- l'altezza del canvas finale è la distanza tra le y degli angoli sudovest e nordovest
-      // console.debug("target canvas corrected: ", correctTargetCanvasWidth, correctTargetCanvasHeight);
-
-      // const originalRasterFactorX = raster.width / targetCanvasWidth * viewState.pixelRatio;
-      // const originalRasterFactorY = raster.height / targetCanvasHeight * viewState.pixelRatio;
-      // const originalRasterOriginX = nw[0] < 0 ? Math.abs(nw[0]) * originalRasterFactorX : 0;
-      // const originalRasterOriginY = nw[1] < 0 ? Math.abs(nw[1]) * originalRasterFactorY : 0;
-      // const originalRasterW = Math.min(raster.width, correctTargetCanvasWidth * originalRasterFactorX);
-      // const originalRasterH = Math.min(raster.height, correctTargetCanvasHeight * originalRasterFactorY);
-      // // console.group("correctec canvas origin and size")
-      // // console.debug("origin: ", tcoriginNW);
-      // // console.debug("correctTargetCanvasWidth: ", correctTargetCanvasWidth);
-      // // console.debug("correctTargetCanvasHeight: ", correctTargetCanvasHeight);
-      // // console.debug("")
-      // // console.groupEnd();
-      // // console.group("original raster ration and orign")
-      // // console.debug("originalRasterFactorX: ", originalRasterFactorX);
-      // // console.debug("originalRasterFactorY: ", originalRasterFactorY);
-      // // console.debug("originalRasterOriginX: ", originalRasterOriginX);
-      // // console.debug("originalRasterOriginY: ", originalRasterOriginY);
-      // // console.debug("originalRasterW: ", originalRasterW);
-      // // console.debug("originalRasterH: ", originalRasterH);
-      // // console.debug("")
-      // // console.groupEnd();
-
 
       //ridisegno nel canvas di destinazione finale con ritaglio della geometria del campo, rotazioni e mazzicazzi per tenere il raster dell'indice "bello appiccicato" alla geometria sulla mappa
       const resultingCanvas = document.createElement("canvas");
