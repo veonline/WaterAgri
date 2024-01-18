@@ -17,14 +17,23 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th scope="col">Solution</th>
-                  <th scope="col">Score</th>
+                  <th class="text-align-center align-center" rowspan="2" scope="col">Solution</th>
+                  <th colspan="3" scope="col">Suitability</th>                  
+                </tr>
+                <tr>
+                  <th scope="col">General</th>
+                  <th scope="col">Environmental</th>
+                  <th scope="col">Social</th>
+                  <th scope="col">Economic</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="sol in sol_filtered" :key="sol.solution">
+                <tr v-for="sol in sol_grouped" >
                   <td>{{sol.solution}}</td>
-                  <td>{{sol.suitability}}</td>
+                  <td><SuitabilityTag  :key="Math.random()" :solution="sol.gen"></SuitabilityTag></td>
+                  <td><SuitabilityTag  :key="Math.random()" :solution="sol.env"></SuitabilityTag></td>
+                  <td><SuitabilityTag  :key="Math.random()" :solution="sol.soc"></SuitabilityTag></td>
+                  <td><SuitabilityTag  :key="Math.random()" :solution="sol.eco"></SuitabilityTag></td> 
                 </tr>
               </tbody>
             </table>
@@ -39,6 +48,8 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 import {getSolutions, getLocations} from './data.js'
 
+import SuitabilityTag from './SuitabilityTag.vue';
+
 
 const solutions=ref(getSolutions())
 
@@ -47,13 +58,15 @@ const location = ref(
 )
 
 const sol_filtered=ref([])
+const sol_grouped=ref({})
 
 
 const sel_location=ref(null)
 
+
 onMounted(() => {
   map.value = L.map('map').setView([51.505, -0.09], 13)
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map.value)
 
@@ -78,6 +91,8 @@ onMounted(() => {
     onEachFeature: function (feature, layer) {
       layer.on('click', function (e) {
 
+        console.log("KEY!1!");
+
         let prop=feature.properties
         let popup=`
           <h3>${prop.name}</h3>
@@ -90,13 +105,41 @@ onMounted(() => {
         sel_location.value=prop;
 
         //selected location by WATERAGRI_Sites=prop.code
+        sol_filtered.value=[];
 
         sol_filtered.value=solutions.value.filter((sol) => {
           return sol.WATERAGRI_Sites==prop.code
         })
 
+        sol_grouped.value={}
+        //group by solutions
+        sol_filtered.value.forEach((sol) => {
+          if(!sol_grouped.value[sol.solution]){
+            sol_grouped.value[sol.solution]={"solution":sol.solution}
+          }
 
-        console.log(sol_filtered.value)
+          if(!sol_grouped.value[sol.solution][sol.dim]){
+            sol_grouped.value[sol.solution][sol.dim]=sol
+          }
+        })
+
+        let array=[]
+        //for each key add sol
+        for (const [key, value] of Object.entries(sol_grouped.value)) {
+          if(value.solution!=="-"){
+            array.push(value)
+
+          }
+        }
+
+        //sort by sol.gen.suitability desc;
+        array.sort((a, b) => {
+          return b.gen.suitability-a.gen.suitability
+        })
+
+        sol_grouped.value=array
+
+        
 
 
 

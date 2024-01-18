@@ -28,6 +28,7 @@ export function getLocations() {
       },
       {
         name: "Poland - Lubnov",
+        code: "PL",
         lat: 51.24908923,
         lng: 16.89711895,
         zone: "Continental",
