@@ -1144,7 +1144,7 @@ export function getSolutions() {
     {
       dim: "gen",
       WATERAGRI_Sites: "AT",
-      suitability: 10,
+      suitability: 1,
       solution: "Farm Constructed Wetlands",
       reason: "",
     },
@@ -1452,7 +1452,7 @@ export function getSolutions() {
     {
       dim: "gen",
       WATERAGRI_Sites: "AT",
-      suitability: 10,
+      suitability: 1,
       solution: "Precision Irrigation System",
       reason: "",
     },
