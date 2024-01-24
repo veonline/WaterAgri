@@ -28,6 +28,7 @@ export function getLocations() {
       },
       {
         name: "Poland - Lubnov",
+        code: "PL",
         lat: 51.24908923,
         lng: 16.89711895,
         zone: "Continental",
@@ -1143,7 +1144,7 @@ export function getSolutions() {
     {
       dim: "gen",
       WATERAGRI_Sites: "AT",
-      suitability: 10,
+      suitability: 1,
       solution: "Farm Constructed Wetlands",
       reason: "",
     },
@@ -1451,7 +1452,7 @@ export function getSolutions() {
     {
       dim: "gen",
       WATERAGRI_Sites: "AT",
-      suitability: 10,
+      suitability: 1,
       solution: "Precision Irrigation System",
       reason: "",
     },
