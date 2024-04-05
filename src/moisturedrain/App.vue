@@ -3,8 +3,9 @@
     <div ref="mainMap" id="mainMap"></div>
   </div>
   <div class="tiff-selection-buttons" ref="buttons" v-show="mapready">
-    <button @click="showRaster('deep_drain')" :class="{active : rasterType == 'deep_drain'}">With deep dranis</button>
-    <button @click="showRaster('no_deep_drain')" :class="{active : rasterType == 'no_deep_drain'}">Without deep drains</button>
+    <button @click="showRaster('deep_drain')" :class="{ active: rasterType == 'deep_drain' }">With deep drains</button>
+    <button @click="showRaster('no_deep_drain')" :class="{ active: rasterType == 'no_deep_drain' }">Without deep
+      drains</button>
     <div class="legend-container">
       <div class="legend"></div>
       <div class="low">low</div>
@@ -19,6 +20,7 @@
   background-color: #ffffff;
   border-radius: 4px;
 }
+
 button {
   font-family: Poppins, arial, sans-serif;
   margin: 5px;
@@ -42,7 +44,7 @@ button.active {
   background-color: #ffff;
   height: 9px;
   width: 100%;
-  background-image: linear-gradient(to right, rgb(253, 231, 37),rgb(122, 209, 81),rgb(34, 168, 132),rgb(42, 120, 142),rgb(65, 68, 135),rgb(68, 1, 84));
+  background-image: linear-gradient(to right, rgb(253, 231, 37), rgb(122, 209, 81), rgb(34, 168, 132), rgb(42, 120, 142), rgb(65, 68, 135), rgb(68, 1, 84));
 
 }
 </style>
