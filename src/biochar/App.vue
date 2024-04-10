@@ -10,7 +10,8 @@
           <br />
           Biochar can improve soil properties, including water retention. It enhances water-holding capacity in sandy
           soils
-          and drainage in clay soils by creating a more complex porous system for water movement. However, this simplified
+          and drainage in clay soils by creating a more complex porous system for water movement. However, this
+          simplified
           model should be used as a quick understanding of the potential of biochar for water retention, but not as a
           design
           guide for biochar application. The specific effects depend on biochar type, amount, soil characteristics, and
@@ -27,9 +28,10 @@
               Select soil type
             </span>
             <span class="input-control">
-              <select v-model="selectedSoilType">
-                <option selected></option>
-                <option v-for="(tk, tn) in textures" :key="tn" :value="tk" :disabled="!tk">{{ tn }}</option>
+              <select v-model="selectedSoilType" disabled>
+                <option v-for="(tk, tn) in textures" :key="tn" :value="tk" :disabled="!tk">
+                  {{ tn }}
+                </option>
               </select>
             </span>
           </label>

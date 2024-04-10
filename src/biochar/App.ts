@@ -44,7 +44,7 @@ export default defineComponent({
   setup() {
     provide(THEME_KEY, 'light');
 
-    const selectedSoilType = ref("")
+    const selectedSoilType = ref("medium")
     const selectedParticleSizes = ref(null)
     const selectedRate = ref(null)
 
