@@ -1,0 +1,13 @@
+#leaflet_map{
+  height:800px;
+}
+
+
+#case_study_list{
+  padding:20px;
+}
+
+
+#case_study_list .card{
+  margin-bottom:20px;
+}

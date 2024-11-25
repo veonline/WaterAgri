@@ -1,0 +1,8 @@
+Flask
+flask-cors
+requests
+flask_restful
+logging
+psycopg2-binary
+mysql-connector-python==8.0.11
+python-keycloak-client

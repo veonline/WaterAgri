@@ -1,0 +1,7 @@
+config.py
+tmp/*
+!tmp/.gitkeep 
+clisos/
+org/
+working/*
+!working/.gitkeep 
