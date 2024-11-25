@@ -1,0 +1,134 @@
+version: '2.1'
+services:
+  db:
+    image: 'kartoza/postgis:11.5-2.8'
+    container_name: db
+    restart: always
+    volumes:
+      - './database/geo-db-data:/var/lib/postgresql/data/pgdata'
+      - './database/init_db.sql:/docker-entrypoint-initdb.d/0_init.sql'
+      - './database/populate.sql:/docker-entrypoint-initdb.d/1_populate.sql'
+    ports:
+      - '${POSTGRES_PORT}:5432'
+    environment:
+      POSTGRES_USER: '${POSTGRES_USER}'
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
+      POSTGRES_DB: '${POSTGRES_DB}'
+      PGDATA: /var/lib/postgresql/data/pgdata
+      ALLOW_IP_RANGE: 172.5.0.0/16
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U postgres
+        - interval '10s'
+        - timeout '5s'
+        - retries 5
+    networks:
+      - test
+  phppgadmin:
+    image: 'dockage/phppgadmin:latest'
+    restart: always
+    ports:
+      - '9180:80'
+    environment:
+      - PHP_PG_ADMIN_SERVER_HOST=db
+      - PHP_PG_ADMIN_SERVER_PORT=5432
+      - 'PHP_PG_ADMIN_SERVER_DEFAULT_DB=${POSTGRES_DB}'
+    networks:
+      - test
+  keycloak:
+    image: jboss/keycloak
+    container_name: keycloak
+    restart: always
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: db
+      DB_DATABASE: '${POSTGRES_DB}'
+      DB_SCHEMA: keycloak
+      DB_USER: '${POSTGRES_USER}'
+      DB_PASSWORD: '${POSTGRES_PASSWORD}'
+      KEYCLOAK_USER: '${KEYCLOAK_USER}'
+      KEYCLOAK_PASSWORD: '${KEYCLOAK_PASSWORD}'
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - '9280:8080'
+      - '8443:8443'
+    networks:
+      - test
+  geoserver:
+    image: 'kartoza/geoserver:2.17.0'
+    container_name: geoserver
+    volumes:
+      - './geo_data/:/opt/geoserver/data_dir'
+    ports:
+      - '9380:8080'
+    restart: on-failure
+    environment:
+      - GEOSERVER_DATA_DIR=/opt/geoserver/data_dir
+      - ENABLE_JSONP=true
+      - MAX_FILTER_RULES=20
+      - OPTIMIZE_LINE_WIDTH=false
+      - FOOTPRINTS_DATA_DIR=/opt/footprints_dir
+      - GEOWEBCACHE_CACHE_DIR=/opt/geoserver/data_dir/gwc
+      - GEOSERVER_ADMIN_USER=admin
+      - 'GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}'
+      - INITIAL_MEMORY=2G
+      - MAXIMUM_MEMORY=4G
+      - XFRAME_OPTIONS='false'
+      - STABLE_EXTENSIONS=''
+      - SAMPLE_DATA=false
+      - GEOSERVER_CSRF_DISABLED=true
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: 'curl --fail -s http://localhost:8080/ || exit 1'
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - test
+  drupal:
+    image: 'drupal:latest'
+    container_name: drupal
+    ports:
+      - '9480:80'
+    volumes:
+      # - './drupal/modules:/var/www/html/modules'
+      # - './drupal/profiles:/var/www/html/profiles'
+      # - './drupal/themes:/var/www/html/themes'
+      - './drupal/sites:/var/www/html/sites'
+    restart: on-failure
+    environment:
+      - 'POSTGRES_DB=${POSTGRES_DB}'
+      - 'POSTGRES_USER=${POSTGRES_USER}'
+      - 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD}'
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - test
+  api:
+    image: api
+    build: ./api
+    container_name: api
+    ports:
+      - '5000:5001'
+    volumes:
+      - './api:/app'
+    environment:
+      - 'POSTGRES_DB=${POSTGRES_DB}'
+      - 'POSTGRES_USER=${POSTGRES_USER}'
+      - 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD}'
+    networks:
+      - testsos:
+    image: api
+networks:
+  test:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.5.0.0/16
+    name: test_net
